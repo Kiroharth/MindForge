@@ -82,6 +82,50 @@ export default function ImportPage() {
                     </p>
                 </div>
 
+                {/* Example Prompt Section */}
+                <div className="bg-white/5 border border-white/10 rounded-xl p-4 space-y-3">
+                    <div className="flex justify-between items-center">
+                        <h3 className="text-sm font-medium text-gray-300 flex items-center gap-2">
+                            <Sparkles size={16} className="text-yellow-500" />
+                            AI Prompt Template
+                        </h3>
+                        <button
+                            onClick={() => {
+                                const prompt = `Create a quiz about "${topic || "General Knowledge"}" with 5 questions.
+Output strictly valid JSON only. The format must be an array of objects.
+Do not include any conversational text, just the JSON array.
+
+Structure for each object:
+{
+  "question": "Question text here (use $...$ for LaTeX math)",
+  "type": "multiple-choice" or "short-answer",
+  "options": ["Option A", "Option B", "Option C", "Option D"] (only for multiple-choice),
+  "correctAnswer": "The correct answer string (must match one of the options if multiple-choice)",
+  "explanation": "Brief explanation of the solution"
+}
+
+Example:
+[
+  {
+    "question": "What is $2+2$?",
+    "type": "short-answer",
+    "correctAnswer": "4",
+    "explanation": "Basic addition."
+  }
+]`;
+                                navigator.clipboard.writeText(prompt);
+                                alert("Detailed prompt copied to clipboard!");
+                            }}
+                            className="text-xs bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 px-3 py-1.5 rounded-lg transition-colors font-medium"
+                        >
+                            Copy Prompt
+                        </button>
+                    </div>
+                    <div className="bg-black/30 rounded-lg p-3 text-xs font-mono text-gray-500 break-words whitespace-pre-wrap">
+                        Create a quiz about "{topic || "General Knowledge"}" with 5 questions... (Click copy for full prompt)
+                    </div>
+                </div>
+
                 {/* Error Message */}
                 {error && (
                     <motion.div
