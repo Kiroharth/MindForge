@@ -104,6 +104,117 @@ npm run dev
 └── types/                 # TypeScript definitions
 ```
 
+## Getting Started
+
+### Accessing MindForge
+
+Visit the live application at: `https://mind-forge-snowy.vercel.app/`
+
+No installation is required to use the web version. However, for the best experience, we recommend installing MindForge as a Progressive Web App (PWA) on your device.
+
+### Installing as a PWA
+
+#### Windows (Chrome/Edge)
+
+1. Open MindForge in Chrome or Edge browser
+2. Look for the "Install App" button in the sidebar, or
+3. Click the install icon in the browser's address bar (appears as a monitor with a download arrow)
+4. Click "Install" in the popup dialog
+5. MindForge will now open as a standalone application
+6. Access it from your Start Menu or Desktop shortcut
+
+#### macOS (Chrome/Edge)
+
+1. Open MindForge in Chrome or Edge browser
+2. Click the "Install App" button in the sidebar, or
+3. Click the install icon in the address bar
+4. Select "Install"
+5. MindForge will appear in your Applications folder and Dock
+
+**Note:** Safari on macOS does not support PWA installation in the traditional sense.
+
+#### Android (Chrome)
+
+1. Open MindForge in Chrome browser
+2. Tap the menu icon (three dots) in the top-right corner
+3. Select "Add to Home screen" or "Install App"
+4. Confirm the installation
+5. MindForge will appear on your home screen as a native app icon
+6. Launch it like any other Android app
+
+#### iOS (Safari)
+
+1. Open MindForge in Safari browser
+2. Tap the Share button (square with an arrow pointing up)
+3. Scroll down and tap "Add to Home Screen"
+4. Customize the name if desired
+5. Tap "Add"
+6. MindForge will appear on your home screen
+7. Launch it like any other iOS app
+
+**Note:** iOS requires Safari for PWA installation. Chrome on iOS does not support this feature.
+
+### Offline Access
+
+Once installed as a PWA, MindForge will work offline. Your quizzes and progress are stored locally on your device, ensuring you can continue learning even without an internet connection.
+
+## Using MindForge
+
+### Creating Your First Quiz
+
+1. **Navigate to Import Quiz:**
+   - Click "Import Quiz" in the sidebar
+
+2. **Generate Quiz Content:**
+   - Open your preferred AI assistant (ChatGPT, Claude, Gemini)
+   - Use the AI Prompt Template provided in the app
+   - Copy the generated JSON output
+
+3. **Import the Quiz:**
+   - Enter a topic name (e.g., "Calculus Derivatives")
+   - Paste the JSON content into the text area
+   - Click "Import Quiz"
+
+4. **Start Practicing:**
+   - Your quiz will appear in the dashboard
+   - Click on it to begin
+
+### Taking a Quiz
+
+**Desktop Experience:**
+- Questions appear on the left
+- NotePad (drawing + notes) appears on the right
+- Use number keys `1-4` to select multiple choice answers
+- Press `Enter` to submit or advance to the next question
+- View mathematical graphs when included
+- Track your time in the top-left corner
+
+**Mobile Experience:**
+- Switch between "Question" and "Notes" tabs
+- Tap to select answers
+- Tap "Check Answer" to submit
+- View instant feedback with detailed explanations
+
+### Understanding Your Progress
+
+**Dashboard Features:**
+- **Streak Counter:** Days of consecutive quiz activity
+- **Questions Solved:** Total number of questions answered correctly
+- **Quizzes Taken:** Total quiz sessions completed
+- **Topic Mastery:** Visual chart showing performance across different subjects
+
+**History:**
+- View all completed quizzes
+- See scores and completion times
+- Review topic coverage
+
+### Tips for Best Results
+
+- **Use the NotePad:** Work through problems step-by-step using the drawing tool
+- **Review Explanations:** Even for correct answers, read the explanations to deepen understanding
+- **Practice Regularly:** Build and maintain your streak for consistent progress
+- **Explore Graphs:** When available, examine function visualizations to understand concepts visually
+
 ## Usage
 
 ### Creating a Quiz
