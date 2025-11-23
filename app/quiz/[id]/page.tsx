@@ -23,6 +23,7 @@ export default function QuizPage() {
     const [score, setScore] = useState(0);
     const [isFinished, setIsFinished] = useState(false);
     const [answersLog, setAnswersLog] = useState<Record<string, { userAnswer: string; isCorrect: boolean }>>({});
+    const [mobileTab, setMobileTab] = useState<'question' | 'notes'>('question');
 
     useEffect(() => {
         if (params.id) {
@@ -137,12 +138,12 @@ export default function QuizPage() {
     const currentQuestion = quiz.questions[currentQuestionIndex];
 
     return (
-        <div className="max-w-[1600px] mx-auto px-6 space-y-6 h-[calc(100vh-140px)] flex flex-col">
+        <div className="w-full h-[calc(100vh-140px)] flex flex-col px-4 lg:px-8 space-y-4">
             {/* Header Info */}
             <div className="flex justify-between items-center text-gray-400 text-sm shrink-0">
                 <span>Question {currentQuestionIndex + 1} of {quiz.questions.length}</span>
                 <div className="flex items-center gap-4">
-                    <div className="w-32 bg-white/10 h-2 rounded-full overflow-hidden">
+                    <div className="w-32 bg-white/10 h-2 rounded-full overflow-hidden hidden sm:block">
                         <motion.div
                             className="bg-blue-500 h-full"
                             initial={{ width: 0 }}
@@ -153,16 +154,41 @@ export default function QuizPage() {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1 min-h-0">
+            {/* Mobile Tabs */}
+            <div className="lg:hidden flex bg-white/5 p-1 rounded-xl mb-2 shrink-0">
+                <button
+                    onClick={() => setMobileTab('question')}
+                    className={clsx(
+                        "flex-1 py-2 rounded-lg text-sm font-medium transition-colors",
+                        mobileTab === 'question' ? "bg-blue-600 text-white" : "text-gray-400 hover:text-white"
+                    )}
+                >
+                    Question
+                </button>
+                <button
+                    onClick={() => setMobileTab('notes')}
+                    className={clsx(
+                        "flex-1 py-2 rounded-lg text-sm font-medium transition-colors",
+                        mobileTab === 'notes' ? "bg-blue-600 text-white" : "text-gray-400 hover:text-white"
+                    )}
+                >
+                    Notes
+                </button>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 min-h-0">
                 {/* Main Question Area */}
-                <div className="lg:col-span-2 flex flex-col gap-6 overflow-y-auto pr-2">
+                <div className={clsx(
+                    "lg:col-span-7 flex flex-col gap-6 overflow-y-auto pr-2",
+                    mobileTab === 'question' ? "block" : "hidden lg:flex"
+                )}>
                     <AnimatePresence mode='wait'>
                         <motion.div
                             key={currentQuestion.id}
                             initial={{ opacity: 0, x: 20 }}
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: -20 }}
-                            className="glass-panel p-8 rounded-2xl space-y-6 flex-1 flex flex-col"
+                            className="glass-panel p-6 lg:p-8 rounded-2xl space-y-6 flex-1 flex flex-col"
                         >
                             <div className="text-xl text-white font-medium leading-relaxed">
                                 <MathRenderer content={currentQuestion.text} />
@@ -266,7 +292,10 @@ export default function QuizPage() {
                 </div>
 
                 {/* Side Panel (Notes) */}
-                <div className="hidden lg:block h-full">
+                <div className={clsx(
+                    "lg:col-span-5 h-full",
+                    mobileTab === 'notes' ? "block" : "hidden lg:block"
+                )}>
                     <NotePad />
                 </div>
             </div>

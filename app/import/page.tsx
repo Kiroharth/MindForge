@@ -101,7 +101,8 @@ Structure for each object:
   "type": "multiple-choice" or "short-answer",
   "options": ["Option A", "Option B", "Option C", "Option D"] (only for multiple-choice),
   "correctAnswer": "The correct answer string (must match one of the options if multiple-choice)",
-  "explanation": "Brief explanation of the solution"
+  "explanation": "Brief explanation of the solution",
+  "graph": "(Optional) Include ONLY if a function plot helps answer the question (e.g. 'x^2')"
 }
 
 Example:
@@ -111,6 +112,14 @@ Example:
     "type": "short-answer",
     "correctAnswer": "4",
     "explanation": "Basic addition."
+  },
+  {
+    "question": "Which plot shows a standard parabola?",
+    "type": "multiple-choice",
+    "options": ["Linear", "Quadratic", "Cubic", "Sine"],
+    "correctAnswer": "Quadratic",
+    "explanation": "A parabola is the graph of a quadratic function.",
+    "graph": "x^2"
   }
 ]`;
                                 navigator.clipboard.writeText(prompt);
