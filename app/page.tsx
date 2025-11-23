@@ -84,8 +84,14 @@ export default function Dashboard() {
 
           <div className="space-y-3">
             {recentQuizzes.length === 0 ? (
-              <div className="text-gray-500 text-center py-10 glass-panel rounded-xl">
-                No quizzes yet.
+              <div className="text-gray-500 text-center py-10 glass-panel rounded-xl flex flex-col items-center gap-3">
+                <div className="p-3 bg-white/5 rounded-full">
+                  <Brain size={24} className="text-gray-600" />
+                </div>
+                <p>No quizzes yet. Start your journey!</p>
+                <Link href="/import" className="text-sm text-blue-400 hover:text-blue-300">
+                  Create your first quiz
+                </Link>
               </div>
             ) : (
               recentQuizzes.map((quiz, i) => (

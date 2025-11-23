@@ -24,6 +24,7 @@ export default function QuizPage() {
     const [isFinished, setIsFinished] = useState(false);
     const [answersLog, setAnswersLog] = useState<Record<string, { userAnswer: string; isCorrect: boolean }>>({});
     const [mobileTab, setMobileTab] = useState<'question' | 'notes'>('question');
+    const [elapsedTime, setElapsedTime] = useState(0);
 
     useEffect(() => {
         if (params.id) {
@@ -35,6 +36,46 @@ export default function QuizPage() {
             }
         }
     }, [params.id, router]);
+
+    // Timer Effect
+    useEffect(() => {
+        if (!quiz || isFinished) return;
+        const timer = setInterval(() => setElapsedTime(prev => prev + 1), 1000);
+        return () => clearInterval(timer);
+    }, [quiz, isFinished]);
+
+    // Keyboard Shortcuts
+    useEffect(() => {
+        if (!quiz || isFinished) return;
+
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (showFeedback) {
+                if (e.key === 'Enter') handleNext();
+                return;
+            }
+
+            const currentQuestion = quiz.questions[currentQuestionIndex];
+            if (currentQuestion.type === 'multiple-choice' && currentQuestion.options) {
+                const key = parseInt(e.key);
+                if (key >= 1 && key <= currentQuestion.options.length) {
+                    setUserAnswer(currentQuestion.options[key - 1]);
+                }
+            }
+
+            if (e.key === 'Enter' && userAnswer) {
+                handleSubmit();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [quiz, isFinished, showFeedback, currentQuestionIndex, userAnswer]);
+
+    const formatTime = (seconds: number) => {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
+    };
 
     const handleSubmit = () => {
         if (!quiz) return;
@@ -119,6 +160,9 @@ export default function QuizPage() {
                     <p className="text-gray-400 text-lg">
                         You got {score} out of {quiz.questions.length} correct.
                     </p>
+                    <p className="text-gray-500">
+                        Time taken: {formatTime(elapsedTime)}
+                    </p>
 
                     <div className="flex justify-center gap-4 pt-4">
                         <button onClick={() => router.push('/')} className="flex items-center gap-2 px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-colors">
@@ -141,7 +185,10 @@ export default function QuizPage() {
         <div className="w-full h-[calc(100vh-140px)] flex flex-col px-4 lg:px-8 space-y-4">
             {/* Header Info */}
             <div className="flex justify-between items-center text-gray-400 text-sm shrink-0">
-                <span>Question {currentQuestionIndex + 1} of {quiz.questions.length}</span>
+                <div className="flex items-center gap-4">
+                    <span>Question {currentQuestionIndex + 1} of {quiz.questions.length}</span>
+                    <span className="bg-white/10 px-2 py-0.5 rounded text-xs font-mono">{formatTime(elapsedTime)}</span>
+                </div>
                 <div className="flex items-center gap-4">
                     <div className="w-32 bg-white/10 h-2 rounded-full overflow-hidden hidden sm:block">
                         <motion.div
@@ -210,7 +257,7 @@ export default function QuizPage() {
                                                 onClick={() => !showFeedback && setUserAnswer(option)}
                                                 disabled={showFeedback}
                                                 className={clsx(
-                                                    "p-4 rounded-xl text-left transition-all border",
+                                                    "p-4 rounded-xl text-left transition-all border relative",
                                                     userAnswer === option
                                                         ? "border-blue-500 bg-blue-500/20 text-blue-200"
                                                         : "border-white/10 hover:bg-white/5 text-gray-300",
@@ -218,7 +265,10 @@ export default function QuizPage() {
                                                     showFeedback && userAnswer === option && userAnswer !== currentQuestion.correctAnswer && "border-red-500 bg-red-500/20 text-red-200"
                                                 )}
                                             >
-                                                <MathRenderer content={option} />
+                                                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xs text-gray-500 font-mono border border-white/10 px-1.5 rounded">{idx + 1}</span>
+                                                <div className="pl-8">
+                                                    <MathRenderer content={option} />
+                                                </div>
                                             </button>
                                         ))}
                                     </div>
@@ -270,7 +320,10 @@ export default function QuizPage() {
                     </AnimatePresence>
 
                     {/* Controls */}
-                    <div className="flex justify-end shrink-0">
+                    <div className="flex justify-between items-center shrink-0">
+                        <div className="text-xs text-gray-500 hidden lg:block">
+                            Press <span className="border border-white/10 px-1 rounded">Enter</span> to {showFeedback ? "continue" : "submit"}
+                        </div>
                         {!showFeedback ? (
                             <button
                                 onClick={handleSubmit}
