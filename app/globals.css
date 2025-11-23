@@ -103,3 +103,9 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.2);
 }
+
+/* Math Spacing */
+.katex {
+  font-size: 1.1em;
+  margin: 0 0.2em;
+}

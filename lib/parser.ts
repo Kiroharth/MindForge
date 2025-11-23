@@ -47,5 +47,6 @@ const mapItemToQuestion = (item: any): Question => {
         options: item.options,
         correctAnswer: item.answer || item.correctAnswer,
         explanation: item.explanation || item.reasoning,
+        graph: item.graph,
     };
 };

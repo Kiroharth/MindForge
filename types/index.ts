@@ -7,6 +7,7 @@ export interface Question {
   options?: string[]; // For multiple choice
   correctAnswer: string;
   explanation?: string; // Markdown/LaTeX supported
+  graph?: string; // Function string for function-plot, e.g. "x^2"
 }
 
 export interface Quiz {
