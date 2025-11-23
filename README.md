@@ -218,8 +218,4 @@ Include the graph field only when a function visualization would enhance underst
 
 ## License
 
-This project is provided as-is for educational and portfolio purposes.
-
-## Contact
-
-For questions or collaboration opportunities, please reach out via GitHub.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
