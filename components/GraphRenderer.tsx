@@ -42,9 +42,9 @@ export default function GraphRenderer({ fn, width = 400, height = 300 }: GraphRe
             if (svg) {
                 svg.style.color = '#fff';
                 const textElements = svg.querySelectorAll('text');
-                textElements.forEach(el => el.style.fill = '#888');
+                textElements.forEach(el => (el as SVGElement).style.fill = '#888');
                 const pathElements = svg.querySelectorAll('.domain');
-                pathElements.forEach(el => el.style.stroke = '#444');
+                pathElements.forEach(el => (el as SVGElement).style.stroke = '#444');
             }
 
         } catch (e) {

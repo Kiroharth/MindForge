@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, PlusCircle, History, Settings, Menu, X } from 'lucide-react';
+import { LayoutDashboard, PlusCircle, History, Settings, Menu, X, Download } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import clsx from 'clsx';
 
@@ -25,6 +25,25 @@ const SidebarItem = ({ href, icon: Icon, label, active }: { href: string; icon: 
 export default function Layout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+    const [deferredPrompt, setDeferredPrompt] = React.useState<any>(null);
+
+    React.useEffect(() => {
+        const handler = (e: any) => {
+            e.preventDefault();
+            setDeferredPrompt(e);
+        };
+        window.addEventListener('beforeinstallprompt', handler);
+        return () => window.removeEventListener('beforeinstallprompt', handler);
+    }, []);
+
+    const handleInstallClick = async () => {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+            setDeferredPrompt(null);
+        }
+    };
 
     return (
         <div className="min-h-screen flex bg-[#0a0a0a] text-white selection:bg-blue-500/30">
@@ -42,9 +61,18 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     <SidebarItem href="/history" icon={History} label="History" active={pathname === '/history'} />
                 </nav>
 
-                <div className="pt-6 border-t border-white/10">
+                <div className="pt-6 border-t border-white/10 space-y-4">
+                    {deferredPrompt && (
+                        <button
+                            onClick={handleInstallClick}
+                            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white transition-colors"
+                        >
+                            <Download size={20} />
+                            <span className="font-medium">Install App</span>
+                        </button>
+                    )}
                     {/* Placeholder for future settings or user profile */}
-                    <div className="px-4 py-2 text-xs text-gray-500">v1.0.0</div>
+                    <div className="px-4 text-xs text-gray-500">v1.0.0</div>
                 </div>
             </aside>
 
@@ -71,6 +99,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                             <SidebarItem href="/" icon={LayoutDashboard} label="Dashboard" active={pathname === '/'} />
                             <SidebarItem href="/import" icon={PlusCircle} label="Import Quiz" active={pathname === '/import'} />
                             <SidebarItem href="/history" icon={History} label="History" active={pathname === '/history'} />
+
+                            {deferredPrompt && (
+                                <button
+                                    onClick={handleInstallClick}
+                                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white transition-colors mt-4"
+                                >
+                                    <Download size={20} />
+                                    <span className="font-medium">Install App</span>
+                                </button>
+                            )}
                         </nav>
                     </motion.div>
                 )}
