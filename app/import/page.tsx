@@ -101,7 +101,7 @@ Structure for each object:
   "type": "multiple-choice" or "short-answer",
   "options": ["Option A", "Option B", "Option C", "Option D"] (only for multiple-choice),
   "correctAnswer": "The correct answer string (must match one of the options if multiple-choice)",
-  "explanation": "Brief explanation of the solution",
+  "explanation": "Detailed, step-by-step explanation. Use markdown for bolding/lists. Aim for a beginner-friendly teaching style.",
   "graph": "(Optional) Include ONLY if a function plot helps answer the question (e.g. 'x^2')"
 }
 
@@ -111,14 +111,14 @@ Example:
     "question": "What is $2+2$?",
     "type": "short-answer",
     "correctAnswer": "4",
-    "explanation": "Basic addition."
+    "explanation": "**Step 1:** Identify the numbers.\\n**Step 2:** Add them together: $2+2=4$."
   },
   {
     "question": "Which plot shows a standard parabola?",
     "type": "multiple-choice",
     "options": ["Linear", "Quadratic", "Cubic", "Sine"],
     "correctAnswer": "Quadratic",
-    "explanation": "A parabola is the graph of a quadratic function.",
+    "explanation": "A parabola is the graph of a quadratic function ($y=x^2$).\\n\\n*   **Linear** is a straight line.\\n*   **Quadratic** forms a U-shape (parabola).\\n*   **Cubic** forms an S-shape.",
     "graph": "x^2"
   }
 ]`;
